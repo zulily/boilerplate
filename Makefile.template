@@ -1,0 +1,98 @@
+# Old-skool build tools.
+#
+# Targets (see each target for more information):
+#   build/container:	builds the Docker image used to compile all golang code
+#   build:        		builds binaries, placing each next to it's respective main pkg
+#   test: 		    		runs tests
+#   lint:    				  lints the source tree
+#   install: 					builds, then tests
+#   dockerize:    		builds, tests, then makes a Docker image for each binary
+#	  clean:			  		removes build artifacts (aka binaries)
+#	  clean-all:	  		cleans, then removes the artifact for build/container
+
+.DEFAULT_GOAL := build
+
+# some terminal color escape codes
+LIGHT_GREEN=\033[1;32m
+NC=\033[0m  # No Color
+
+# obtains the latest git SHA for the current repo, which is used to tag docker
+# images and set properties in the golang binaries
+GIT_SHA:= $(shell git rev-parse HEAD 2>/dev/null | cut -c 1-7)
+
+# the "root" pkg contained in this project.  If the project contains multiple
+# binaries, each binary's main pkg will be in a subdir of SRC_ROOT
+SRC_ROOT={{.Repository}}/{{.Namespace}}/{{.Project}}/
+
+# the uid of the current user on the host machine
+HOST_UID:= $(shell id -u)
+
+# Builds the docker image that we'll use to compile all subsequent golang code
+# touch: http://www.gnu.org/software/make/manual/make.html#Empty-Targets
+build/container: build/Dockerfile
+	@echo "${LIGHT_GREEN}building Docker image: boilerplate/compile...${NC}"
+	docker build --no-cache -t boilerplate/compile build/
+	touch $@
+
+clean:
+	rm -f {{.Project}}
+
+clean-all: clean
+	rm -f build/container
+
+# runs a `godep save` in a container, outputting the results via the volume mount
+godep:
+	@docker run --rm \
+		-v "$$PWD":"/go/src/${SRC_ROOT}" \
+		-w "/go/src/${SRC_ROOT}" \
+		-u ${HOST_UID} \
+		-t boilerplate/compile \
+		godep save
+.PHONY: godep
+
+{{ToUpper .Project}}_SRCS = $(shell find . -type f -name '*.go')
+
+# builds the binary in a Docker container and copies it to a volume mount (/output/)
+{{.Project}}: $({{ToUpper .Project}}_SRCS) build/container
+	@echo "${LIGHT_GREEN}building binary for {{.Project}}...${NC}"
+	@docker run --rm \
+		-v "$$PWD":"/go/src/${SRC_ROOT}" \
+		-w "/go/src/${SRC_ROOT}" \
+		-v "$${PWD}/":/output \
+		-u ${HOST_UID} \
+		-e "GIT_SHA=${GIT_SHA}" \
+		-t boilerplate/compile
+
+build: {{.Project}}
+
+# runs any tests inside a Docker container
+test: build
+	@echo "${LIGHT_GREEN}running tests for {{.Project}}...${NC}"
+	@docker run --rm \
+		-v "$$PWD":"/go/src/${SRC_ROOT}" \
+		-w "/go/src/${SRC_ROOT}" \
+		boilerplate/compile \
+		godep go test -v
+.PHONY: test
+
+install: build test
+.PHONY: install
+
+# lints the entire src tree inside a Docker container, using golint
+lint: build/container
+	@echo "${LIGHT_GREEN}linting code...${NC}"
+	@docker run --rm \
+		-v "$$PWD":"/go/${SRC_ROOT}" \
+		-w "/go/${SRC_ROOT}/" \
+		boilerplate/compile \
+		golint ./...
+.PHONY: lint
+
+# Build docker images and tags them with the latest git SHA
+dockerize: install
+	@echo "${LIGHT_GREEN} building Docker image '{{.Namespace}}/{{.Project}}'...${NC}"
+	@docker build --no-cache \
+		-f "Dockerfile" \
+		-t "{{.Namespace}}/{{.Project}}:${GIT_SHA}" ${PWD}
+.PHONY: dockerize
+

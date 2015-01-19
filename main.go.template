@@ -1,0 +1,7 @@
+package main
+
+// set by the compiler
+var BuildSHA string
+
+func main() {
+}
