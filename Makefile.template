@@ -59,8 +59,8 @@ godep:
 		-v "$$PWD":"/go/src/${SRC_ROOT}" \
 		-w "/go/src/${SRC_ROOT}" \
 		-v "$${PWD}/":/output \
-		-u ${HOST_UID} \
 		-e "GIT_SHA=${GIT_SHA}" \
+    -e "USER=${HOST_UID}" \
 		-t boilerplate/compile
 
 build: {{.Project}}
