@@ -63,14 +63,23 @@ Values for the `repository`, `namespace`, and `project` can also be supplied usi
     Initializing godeps
     Done
 
-The resulting project can be compiled and "Dockerized" using the supplied `Makefile` targets:
+The resulting project can be compiled, linted, and "Dockerized" using the supplied `Makefile` targets:
 
     $ cd $GOPATH/src/foobar/zulily/fizzbuzz
     $ make
     building binary for fizzbuzz...
+
+    $ make lint
+    linting code...
+    main.go:8:6: exported type Foobar should have comment or be unexported
+    main.go:15:2: can probably use "var slice []string" instead
 
     $ make dockerize
     building binary for fizzbuzz...
     running tests for fizzbuzz...
     building Docker image 'zulily/fizzbuzz'...
 
+    $ docker images | grep fizzbuzz
+    zulily/fizzbuzz                 HEAD                  4f679023d74c        5 seconds ago      1.94 MB
+
+See the generated `Makefile` in your `boilerplate`-created project for more details and build targets
