@@ -27,24 +27,24 @@ Boilerplate makes/enforces several assumptions about the structure and conventio
 `boilerplate.go` may be invoked with no arguments, in which case you will be
 interactively prompted for the `repository`, `namespace`, and `project` names.
 
-  $ git clone https://core-gitlab.corp.zulily.com/core/boilerplate.git
-  $ cd boilerplate
-  $ go run boilerplate.go
-
-  Enter the name of git repository (e.g. github.com): github.com
-  Enter the namespace in the repository (e.g. zulily): dcarney
-  Enter the name of the project (e.g. fizzbuzz): whizbang
-
-  GOPATH is: /home/dcarney/go
-  Creating a new project at: /home/dcarney/go/src/github.com/dcarney/whizbang
-  Creating new: .dockerignore
-  Creating new: .gitignore
-  Creating new: Dockerfile
-  Creating new: Makefile
-  Creating new: main.go
-  Initializing git repo
-  Initializing godeps
-  Done
+    $ git clone https://core-gitlab.corp.zulily.com/core/boilerplate.git
+    $ cd boilerplate
+    $ go run boilerplate.go
+  
+    Enter the name of git repository (e.g. github.com): github.com
+    Enter the namespace in the repository (e.g. zulily): dcarney
+    Enter the name of the project (e.g. fizzbuzz): whizbang
+  
+    GOPATH is: /home/dcarney/go
+    Creating a new project at: /home/dcarney/go/src/github.com/dcarney/whizbang
+    Creating new: .dockerignore
+    Creating new: .gitignore
+    Creating new: Dockerfile
+    Creating new: Makefile
+    Creating new: main.go
+    Initializing git repo
+    Initializing godeps
+    Done
 
 ## Example
 
