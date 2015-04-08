@@ -21,6 +21,14 @@ Boilerplate makes/enforces several assumptions about the structure and conventio
 * A Docker image is created for the resulting binary, which `exec`s the binary as the entrypoint.
 * The Docker image uses the naming convention `<namespace>/<project>`, and is tagged with the latest `git` SHA in the repo.
 
+## Prerequisites
+
+`boilerplate` depends on having the following installed on the host machine:
+
+* `git`
+* `make`
+* `go`
+* `Docker`
 
 ## Quick Start
 
@@ -30,11 +38,11 @@ interactively prompted for the `repository`, `namespace`, and `project` names.
     $ git clone https://core-gitlab.corp.zulily.com/core/boilerplate.git
     $ cd boilerplate
     $ go run boilerplate.go
-  
+
     Enter the name of git repository (e.g. github.com): github.com
     Enter the namespace in the repository (e.g. zulily): dcarney
     Enter the name of the project (e.g. fizzbuzz): whizbang
-  
+
     GOPATH is: /home/dcarney/go
     Creating a new project at: /home/dcarney/go/src/github.com/dcarney/whizbang
     Creating new: .dockerignore
@@ -83,3 +91,7 @@ The resulting project can be compiled, linted, and "Dockerized" using the suppli
     zulily/fizzbuzz                 HEAD                  4f679023d74c        5 seconds ago      1.94 MB
 
 See the generated `Makefile` in your `boilerplate`-created project for more details and build targets
+
+## Limitations and known issues
+
+Boilerplate produces `x86_64`-compatible Linux binaries, and has not been used on OSX or Windows.
