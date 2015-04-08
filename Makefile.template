@@ -41,7 +41,7 @@ clean-all: clean
 	rm -f build/container
 
 # runs a `godep save` in a container, outputting the results via the volume mount
-godep:
+godep: build/container
 	@docker run --rm \
 		-v "$$PWD":"/go/src/${SRC_ROOT}" \
 		-w "/go/src/${SRC_ROOT}" \
