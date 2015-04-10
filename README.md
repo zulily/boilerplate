@@ -28,7 +28,7 @@ Boilerplate makes/enforces several assumptions about the structure and conventio
 * `git`
 * `make`
 * `go`
-* `Docker`
+* `Docker` (or `boot2docker` for OSX users)
 
 ## Quick Start
 
@@ -94,4 +94,4 @@ See the generated `Makefile` in your `boilerplate`-created project for more deta
 
 ## Limitations and known issues
 
-Boilerplate produces `x86_64`-compatible Linux binaries, and has not been used on OSX or Windows.
+Boilerplate was developed on, and is used daily on, various Linux OSes.  It has been known to work on OSX with `boot2docker`. It has not been used on Windows. (pull requests welcome!)
