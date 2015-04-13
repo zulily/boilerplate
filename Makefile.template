@@ -5,7 +5,7 @@
 #   build:        		builds binaries, placing each next to it's respective main pkg
 #   test: 		    		runs tests
 #   lint:    				  lints the source tree
-#   install: 					builds, then tests
+#   install: 					builds, tests, then copies the resulting binary to $GOPATH/bin/
 #   dockerize:    		builds, tests, then makes a Docker image for each binary
 #	  clean:			  		removes build artifacts (aka binaries)
 #	  clean-all:	  		cleans, then removes the artifact for build/container
@@ -88,6 +88,8 @@ test: build
 .PHONY: test
 
 install: build test
+	@echo "${LIGHT_GREEN}copying binary to ${GOPATH}/bin/...${NC}"
+	cp "$$PWD"/{{.Project}} $${GOPATH}/bin/
 .PHONY: install
 
 # lints the entire src tree inside a Docker container, using golint
