@@ -39,8 +39,8 @@ SRC_ROOT={{.Repository}}/{{.Namespace}}/{{.Project}}/
 # Builds the docker image that we'll use to compile all subsequent golang code
 # touch: http://www.gnu.org/software/make/manual/make.html#Empty-Targets
 build/container: build/Dockerfile
-	@echo "${LIGHT_GREEN}building Docker image: boilerplate/compile...${NC}"
-	docker build --no-cache -t boilerplate/compile build/
+	@echo "${LIGHT_GREEN}building Docker image: boilerplate/{{.Namespace}}-{{.Project}}-compile...${NC}"
+	docker build --no-cache -t boilerplate/{{.Namespace}}-{{.Project}}-compile build/
 	touch $@
 
 clean:
@@ -55,7 +55,7 @@ godep: build/container
 		-v "$$PWD":"/go/src/${SRC_ROOT}" \
 		-w "/go/src/${SRC_ROOT}" \
 		${DOCKER_USER} \
-	  -t boilerplate/compile \
+	  -t boilerplate/{{.Namespace}}-{{.Project}}-compile \
 		godep save
 .PHONY: godep
 
@@ -73,7 +73,7 @@ godep: build/container
 	  -e "GOARCH=${GOARCH}" \
 		-e "BINARY={{.Project}}" \
 		-e "GIT_SHA=${GIT_SHA}" \
-		-t boilerplate/compile
+		-t boilerplate/{{.Namespace}}-{{.Project}}-compile
 
 build: {{.Project}}
 
@@ -83,7 +83,7 @@ test: build
 	@docker run --rm \
 		-v "$$PWD":"/go/src/${SRC_ROOT}" \
 		-w "/go/src/${SRC_ROOT}" \
-		boilerplate/compile \
+		boilerplate/{{.Namespace}}-{{.Project}}-compile \
 		godep go test -v
 .PHONY: test
 
@@ -98,7 +98,7 @@ lint: build/container
 	@docker run --rm \
 		-v "$$PWD":"/go/${SRC_ROOT}" \
 		-w "/go/${SRC_ROOT}/" \
-		boilerplate/compile \
+		boilerplate/{{.Namespace}}-{{.Project}}-compile \
 		golint ./...
 .PHONY: lint
 
@@ -112,7 +112,7 @@ dockerize:
 		${DOCKER_USER} \
 		-e "BINARY={{.Project}}" \
 		-e "GIT_SHA=${GIT_SHA}" \
-		-t boilerplate/compile
+		-t boilerplate/{{.Namespace}}-{{.Project}}-compile
 
 	@echo "${LIGHT_GREEN} building Docker image '{{.Namespace}}/{{.Project}}'...${NC}"
 	@docker build --no-cache \
