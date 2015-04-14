@@ -82,10 +82,16 @@ func deployScaffold(t Target) (string, error) {
 	if ex, err := exists(root); err != nil {
 		return "", err
 	} else if ex {
-		return "", fmt.Errorf("%s already exists", root)
+		fmt.Printf("%s already exists. Overwrite existing files? [y/n]: ", root)
+		reader := bufio.NewReader(os.Stdin)
+		if text, err := reader.ReadString('\n'); err != nil {
+			return "", err
+		} else if !strings.EqualFold(strings.TrimSpace(text), "y") {
+			return "", fmt.Errorf("%s already exists", root)
+		}
 	}
 
-	fmt.Printf("Creating a new project at: %s\n", root)
+	fmt.Printf("Boilerplating the project at: %s\n", root)
 
 	if err := os.MkdirAll(path.Join(root, "build"), 0755); err != nil {
 		return "", err
