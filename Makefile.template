@@ -103,7 +103,7 @@ lint: build/container
 .PHONY: lint
 
 # Build a linux-compatible binary and a docker image that uses the binary as it's entrypoint
-dockerize:
+dockerize: build/container
 	@echo "${LIGHT_GREEN}building {{.Project}} binary for inclusion in Docker image...${NC}"
 	@docker run --rm \
 		-v "$$PWD":"/go/src/${SRC_ROOT}" \
