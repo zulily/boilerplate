@@ -141,6 +141,11 @@ var opts struct {
 	Target
 }
 
+func die(err error) {
+	fmt.Println(err.Error())
+	os.Exit(1)
+}
+
 func main() {
 
 	flag.StringVar(&opts.Repository, "repository", "", "the name of the git repository (e.g. github.com)")
@@ -173,17 +178,17 @@ func main() {
 
 	root, err := deployScaffold(opts.Target)
 	if err != nil {
-		panic(err)
+		die(err)
 	}
 
 	if files, err := filepath.Glob("*.template"); err == nil {
 		for _, templ := range files {
 			if err = deployTemplate(root, templ, opts.Target); err != nil {
-				panic(err)
+				die(err)
 			}
 		}
 	} else {
-		panic(err)
+		die(err)
 	}
 
 	out := ioutil.Discard
@@ -196,7 +201,7 @@ func main() {
 	c.Dir = root
 	c.Stdout, c.Stderr = out, out
 	if err = c.Run(); err != nil {
-		panic(err)
+		die(err)
 	}
 
 	fmt.Println("Initializing godeps")
@@ -204,7 +209,7 @@ func main() {
 	c.Dir = root
 	c.Stdout, c.Stderr = out, out
 	if err = c.Run(); err != nil {
-		panic(err)
+		die(err)
 	}
 
 	fmt.Println("Done")
