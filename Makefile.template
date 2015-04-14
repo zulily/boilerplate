@@ -114,7 +114,7 @@ dockerize: build/container
 		-e "GIT_SHA=${GIT_SHA}" \
 		-t boilerplate/{{.Namespace}}-{{.Project}}-compile
 
-	@echo "${LIGHT_GREEN} building Docker image '{{.Namespace}}/{{.Project}}'...${NC}"
+	@echo "${LIGHT_GREEN}building Docker image '{{.Namespace}}/{{.Project}}:${GIT_SHA}'...${NC}"
 	@docker build --no-cache \
 		-f "Dockerfile" \
 		-t "{{.Namespace}}/{{.Project}}:${GIT_SHA}" ${PWD}
