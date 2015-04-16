@@ -60,10 +60,9 @@ func copyFile(src, dst string) error {
 	return err
 }
 
-// deployScaffold creates the directory structure for a new Go project, copies
-// any required non-template files into it, and returns the path to the root
-// dir of the newly-created project
-func deployScaffold(t Target) (string, error) {
+// ensureGopath ensures that the $GOPATH env var is set, and that it points to
+// a dir that exists
+func ensureGopath() (string, error) {
 	gopath := os.Getenv("GOPATH")
 	if gopath == "" {
 		return "", errors.New("$GOPATH is not set")
@@ -76,35 +75,39 @@ func deployScaffold(t Target) (string, error) {
 	}
 
 	fmt.Printf("GOPATH is: %s\n", gopath)
-	// the "root" dir is at: $GOPATH/src/github.com/zulily/fizzbuzz
-	root := path.Join(gopath, "src", t.Repository, t.Namespace, t.Project)
+	return gopath, nil
+}
+
+// deployScaffold creates the directory structure for a new Go project and
+// copies any required non-template files into it
+func deployScaffold(root string) error {
 
 	if ex, err := exists(root); err != nil {
-		return "", err
+		return err
 	} else if ex {
 		fmt.Printf("%s already exists. Overwrite existing files? [y/n]: ", root)
 		reader := bufio.NewReader(os.Stdin)
 		if text, err := reader.ReadString('\n'); err != nil {
-			return "", err
+			return err
 		} else if !strings.EqualFold(strings.TrimSpace(text), "y") {
-			return "", fmt.Errorf("%s already exists", root)
+			return fmt.Errorf("%s already exists", root)
 		}
 	}
 
 	fmt.Printf("Boilerplating the project at: %s\n", root)
 
 	if err := os.MkdirAll(path.Join(root, "build"), 0755); err != nil {
-		return "", err
+		return err
 	}
 
 	if err := copyFile("build/Dockerfile", path.Join(root, "build", "Dockerfile")); err != nil {
-		return "", err
+		return err
 	}
 
-	return root, nil
+	return nil
 }
 
-// deployTemplate parses and executues a template to a new file under the
+// deployTemplate parses and executes a template to a new file under the
 // specified `root` dir. Template files are assumed to end with ".template".
 // A templated file named `foo.template` will be placed at `root/foo`.
 func deployTemplate(root, tmpl string, target Target) error {
@@ -176,7 +179,14 @@ func main() {
 		}
 	}
 
-	root, err := deployScaffold(opts.Target)
+	gopath, err := ensureGopath()
+	if err != nil {
+		die(err)
+	}
+
+	// the "root" dir is at: $GOPATH/src/github.com/zulily/fizzbuzz
+	root := path.Join(gopath, "src", opts.Target.Repository, opts.Target.Namespace, opts.Target.Project)
+	err = deployScaffold(root)
 	if err != nil {
 		die(err)
 	}
@@ -196,20 +206,30 @@ func main() {
 		out = os.Stdout
 	}
 
-	fmt.Println("Initializing git repo")
-	c := exec.Command("git", "init")
-	c.Dir = root
-	c.Stdout, c.Stderr = out, out
-	if err = c.Run(); err != nil {
+	// Initialize the git repo if it's not already present
+	if ex, err := exists(path.Join(root, ".git")); err != nil {
 		die(err)
+	} else if !ex {
+		fmt.Println("Initializing git repo")
+		c := exec.Command("git", "init")
+		c.Dir = root
+		c.Stdout, c.Stderr = out, out
+		if err = c.Run(); err != nil {
+			die(err)
+		}
 	}
 
-	fmt.Println("Initializing godeps")
-	c = exec.Command("make", "godep")
-	c.Dir = root
-	c.Stdout, c.Stderr = out, out
-	if err = c.Run(); err != nil {
+	// Initialize the godep workspace if it's not already present
+	if ex, err := exists(path.Join(root, "Godeps", "_workspace")); err != nil {
 		die(err)
+	} else if !ex {
+		fmt.Println("Initializing godeps")
+		c := exec.Command("make", "godep")
+		c.Dir = root
+		c.Stdout, c.Stderr = out, out
+		if err = c.Run(); err != nil {
+			die(err)
+		}
 	}
 
 	fmt.Println("Done")
