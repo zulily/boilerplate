@@ -116,7 +116,6 @@ dockerize: build/container
 
 	@echo "${LIGHT_GREEN}building Docker image '{{.Namespace}}/{{.Project}}:${GIT_SHA}'...${NC}"
 	@docker build --no-cache \
-		-f "Dockerfile" \
 		-t "{{.Namespace}}/{{.Project}}:${GIT_SHA}" ${PWD}
 .PHONY: dockerize
 
