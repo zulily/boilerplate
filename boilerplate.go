@@ -191,14 +191,24 @@ func main() {
 		die(err)
 	}
 
-	if files, err := filepath.Glob("*.template"); err == nil {
-		for _, templ := range files {
-			if err = deployTemplate(root, templ, opts.Target); err != nil {
+	files, err := filepath.Glob("*.template")
+
+	if err != nil {
+		die(err)
+	}
+	for _, templ := range files {
+
+		if templ == "main.go.template" {
+			// Only create a "main.go" if one isn't already present
+			if ex, err := exists(path.Join(root, "main.go")); err != nil {
 				die(err)
+			} else if ex {
+				continue
 			}
 		}
-	} else {
-		die(err)
+		if err = deployTemplate(root, templ, opts.Target); err != nil {
+			die(err)
+		}
 	}
 
 	out := ioutil.Discard
