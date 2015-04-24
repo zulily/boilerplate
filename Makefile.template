@@ -40,7 +40,7 @@ SRC_ROOT={{.Repository}}/{{.Namespace}}/{{.Project}}/
 # touch: http://www.gnu.org/software/make/manual/make.html#Empty-Targets
 build/container: build/Dockerfile
 	@echo "${LIGHT_GREEN}building Docker image: boilerplate/{{.Namespace}}-{{.Project}}-compile...${NC}"
-	docker build --no-cache -t boilerplate/{{.Namespace}}-{{.Project}}-compile build/
+	@docker build --no-cache -t boilerplate/{{.Namespace}}-{{.Project}}-compile build/ > /dev/null
 	touch $@
 
 clean:
