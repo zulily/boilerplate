@@ -25,7 +25,6 @@ import (
 	"os"
 	"os/exec"
 	"path"
-	"path/filepath"
 	"strings"
 	"text/template"
 )
@@ -199,12 +198,7 @@ func main() {
 		die(err)
 	}
 
-	files, err := filepath.Glob("*.template")
-
-	if err != nil {
-		die(err)
-	}
-	for _, templ := range files {
+	for _, templ := range AssetNames() {
 
 		if templ == "main.go.template" {
 			// Only create a "main.go" if one isn't already present
