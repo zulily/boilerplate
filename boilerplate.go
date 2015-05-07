@@ -114,9 +114,17 @@ func deployTemplate(root, tmpl string, target Target) error {
 	fm := template.FuncMap{
 		"ToUpper": strings.ToUpper,
 	}
+
+	// Get the template data from the embedded asset (using the Asset func
+	// provided by  go-bindata)
+	templData, err := Asset(tmpl)
+	if err != nil {
+		return err
+	}
+
 	fname := tmpl[:len(tmpl)-len(".template")]
 	fmt.Printf("Creating new: %s\n", fname)
-	t := template.Must(template.New(tmpl).Funcs(fm).ParseFiles(tmpl))
+	t := template.Must(template.New(tmpl).Funcs(fm).Parse(string(templData)))
 
 	if f, err := os.Create(path.Join(root, fname)); err != nil {
 		return err
