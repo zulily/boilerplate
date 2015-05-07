@@ -35,7 +35,7 @@ Boilerplate makes/enforces several assumptions about the structure and conventio
 `boilerplate.go` may be invoked with no arguments, in which case you will be
 interactively prompted for the `repository`, `namespace`, and `project` names.
 
-    $ git clone https://core-gitlab.corp.zulily.com/core/boilerplate.git
+    $ git clone https://github.com/core/boilerplate.git
     $ cd boilerplate
     $ go run boilerplate.go
 
