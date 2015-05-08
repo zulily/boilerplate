@@ -20,7 +20,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -39,24 +38,6 @@ func exists(path string) (bool, error) {
 		return false, nil
 	}
 	return false, err
-}
-
-func copyFile(src, dst string) error {
-	r, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer r.Close()
-
-	w, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer w.Close()
-
-	// do the actual work
-	_, err = io.Copy(w, r)
-	return err
 }
 
 // ensureGopath ensures that the $GOPATH env var is set, and that it points to
@@ -99,7 +80,11 @@ func deployScaffold(root string) error {
 		return err
 	}
 
-	if err := copyFile("build/Dockerfile", path.Join(root, "build", "Dockerfile")); err != nil {
+	byts, err := Asset("build/Dockerfile")
+	if err != nil {
+		return err
+	}
+	if err := ioutil.WriteFile(path.Join(root, "build", "Dockerfile"), byts, 0644); err != nil {
 		return err
 	}
 

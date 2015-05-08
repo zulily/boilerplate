@@ -61,6 +61,26 @@ func (fi bindata_file_info) Sys() interface{} {
 	return nil
 }
 
+var _build_dockerfile = []byte("\x1f\x8b\x08\x00\x00\x09\x6e\x88\x00\xff\x4c\x50\x5f\x6f\xd3\x4e\x10\x7c\xbf\x4f\x31\x3f\xff\x22\xf1\xd2\x4b\x00\xf1\x84\x10\xc2\x49\x4d\x89\x44\x1c\xc9\x6d\xf9\x23\x8a\xaa\x8b\xbd\xb1\x4f\xbd\xec\x59\xf7\x27\x34\x54\xfd\xee\xdc\x25\x54\xf4\xc1\xf6\xee\xec\xee\xcc\x78\x3e\x36\xeb\x15\x7a\x6b\x14\xf7\x6f\x5f\x4d\xdf\x4c\x5f\xcb\xd6\x59\xef\xc5\xaa\x5c\xd6\x57\xe9\xa9\x1a\x2c\xac\x23\x54\xdc\x6b\x26\x72\x9a\x7b\xbc\x6b\x13\xf2\xe1\x77\x34\xda\x1c\xa6\xad\xdd\xbd\x17\xa2\xb9\xae\x13\x0b\x7a\x0a\xe8\x75\x18\xe2\x26\xe3\xb3\x60\xad\xf1\xb3\xde\x76\x34\x3e\xdf\x90\xf1\xf9\xd2\x49\x7c\x66\x34\x87\x5c\xa7\x8f\x10\xff\xe3\x2b\xbd\x48\xaa\x9b\xa8\x4d\x97\x25\x7d\x50\x41\xb7\xd8\x68\x56\x4e\x93\xc7\x40\x8e\xfe\x13\x55\xfd\x05\x8b\x8b\xf5\x6d\x55\x97\xf3\xcf\xd5\x39\x5e\xe6\xcb\x12\x7b\x6b\xe2\x8e\xb0\xb3\x91\x03\x5a\xc5\xd8\xa4\x46\x75\x84\x60\x31\xb3\x31\x8c\x31\x40\x33\xac\xeb\xc8\x65\xcc\x51\x48\xa4\xfb\x34\x1f\x08\xc9\xd2\xa8\x0d\x75\x27\xad\xc3\x51\xe3\x62\x3d\x5f\xd6\x4f\xa7\xe2\x04\x2d\xaf\x6e\x2f\x3f\x95\x88\x7c\xc7\xf6\x17\x67\xe1\x25\xef\xed\x5d\xf2\xa6\xe0\x07\x32\x06\x74\x3f\x1a\xdd\xea\x60\x0e\x67\x59\x25\xff\xf9\xa8\x9c\xda\xe5\x81\x62\xaf\x6d\xb2\xb0\xc5\xe4\x89\x49\x71\x87\xc9\xf5\x65\xd5\x88\xc5\xea\x1c\x3f\x0a\x3f\x14\x67\x28\x64\x9b\xdf\xc7\x08\x73\x7c\xc7\x40\x20\x2d\x26\x0f\xc9\x52\xd9\x7c\x7f\x84\xd4\x9c\xd2\x31\xc6\xc7\xed\x56\xdf\xa3\x4d\x5b\x52\x41\x06\xd5\x7b\x30\x85\xdc\x9a\x6e\x6b\x72\x2b\xfd\xbf\xfa\xa6\x90\xdf\x52\x2a\x9a\xa7\xf3\xcc\x99\x1d\x4c\x1e\xfe\x7a\x79\xbc\x29\x50\xfc\x14\x7f\x02\x00\x00\xff\xff\xf8\x8e\xca\x83\x1c\x02\x00\x00")
+
+func build_dockerfile_bytes() ([]byte, error) {
+	return bindata_read(
+		_build_dockerfile,
+		"build/Dockerfile",
+	)
+}
+
+func build_dockerfile() (*asset, error) {
+	bytes, err := build_dockerfile_bytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindata_file_info{name: "build/Dockerfile", size: 540, mode: os.FileMode(420), modTime: time.Unix(1431101845, 0)}
+	a := &asset{bytes: bytes, info:  info}
+	return a, nil
+}
+
 var _dockerfile_template = []byte("\x1f\x8b\x08\x00\x00\x09\x6e\x88\x00\xff\x72\x0b\xf2\xf7\x55\x80\x80\xe2\xe4\xa2\xc4\x92\xe4\x0c\x2e\x47\x17\x17\xa8\x88\x82\x9e\x7e\x75\xb5\x5e\x40\x51\x7e\x56\x6a\x72\x49\x6d\x2d\x1a\x97\xcb\xd5\x2f\x24\x28\x32\xc0\xdf\xd3\x2f\x44\x21\x5a\x09\x55\x4e\x29\x96\x0b\x10\x00\x00\xff\xff\xbc\x53\x4a\x49\x5a\x00\x00\x00")
 
 func dockerfile_template_bytes() ([]byte, error) {
@@ -76,7 +96,7 @@ func dockerfile_template() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindata_file_info{name: "Dockerfile.template", size: 90, mode: os.FileMode(420), modTime: time.Unix(1428456742, 0)}
+	info := bindata_file_info{name: "Dockerfile.template", size: 90, mode: os.FileMode(420), modTime: time.Unix(1431101845, 0)}
 	a := &asset{bytes: bytes, info:  info}
 	return a, nil
 }
@@ -96,7 +116,7 @@ func dockerignore_template() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindata_file_info{name: ".dockerignore.template", size: 30, mode: os.FileMode(420), modTime: time.Unix(1428456742, 0)}
+	info := bindata_file_info{name: ".dockerignore.template", size: 30, mode: os.FileMode(420), modTime: time.Unix(1431101845, 0)}
 	a := &asset{bytes: bytes, info:  info}
 	return a, nil
 }
@@ -116,7 +136,7 @@ func gitignore_template() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindata_file_info{name: ".gitignore.template", size: 41, mode: os.FileMode(420), modTime: time.Unix(1428456742, 0)}
+	info := bindata_file_info{name: ".gitignore.template", size: 41, mode: os.FileMode(420), modTime: time.Unix(1431101845, 0)}
 	a := &asset{bytes: bytes, info:  info}
 	return a, nil
 }
@@ -136,7 +156,7 @@ func main_go_template() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindata_file_info{name: "main.go.template", size: 74, mode: os.FileMode(420), modTime: time.Unix(1428456742, 0)}
+	info := bindata_file_info{name: "main.go.template", size: 74, mode: os.FileMode(420), modTime: time.Unix(1431101845, 0)}
 	a := &asset{bytes: bytes, info:  info}
 	return a, nil
 }
@@ -156,7 +176,7 @@ func makefile_template() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindata_file_info{name: "Makefile.template", size: 4606, mode: os.FileMode(420), modTime: time.Unix(1429911995, 0)}
+	info := bindata_file_info{name: "Makefile.template", size: 4606, mode: os.FileMode(420), modTime: time.Unix(1431101845, 0)}
 	a := &asset{bytes: bytes, info:  info}
 	return a, nil
 }
@@ -213,6 +233,7 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
+	"build/Dockerfile": build_dockerfile,
 	"Dockerfile.template": dockerfile_template,
 	".dockerignore.template": dockerignore_template,
 	".gitignore.template": gitignore_template,
@@ -267,6 +288,10 @@ var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
 	"Dockerfile.template": &_bintree_t{dockerfile_template, map[string]*_bintree_t{
 	}},
 	"Makefile.template": &_bintree_t{makefile_template, map[string]*_bintree_t{
+	}},
+	"build": &_bintree_t{nil, map[string]*_bintree_t{
+		"Dockerfile": &_bintree_t{build_dockerfile, map[string]*_bintree_t{
+		}},
 	}},
 	"main.go.template": &_bintree_t{main_go_template, map[string]*_bintree_t{
 	}},
