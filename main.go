@@ -24,8 +24,13 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"regexp"
 	"strings"
 	"text/template"
+)
+
+var (
+	validDockerName = regexp.MustCompile("^[a-z0-9-_.]+$")
 )
 
 // exists returns whether the given file or directory exists or not
@@ -56,6 +61,17 @@ func ensureGopath() (string, error) {
 
 	fmt.Printf("GOPATH is: %s\n", gopath)
 	return gopath, nil
+}
+
+// validateNames ensures that each component of the Docker repository name
+// complies with the naming restrictions
+func validateNames(t Target) error {
+	for _, name := range []string{t.Repository, t.Namespace, t.Project} {
+		if !validDockerName.MatchString(name) {
+			return fmt.Errorf("invalid name '%s'. Only [a-z0-9-_.] are allowed.")
+		}
+	}
+	return nil
 }
 
 // deployScaffold creates the directory structure for a new Go project and
@@ -169,6 +185,10 @@ func main() {
 		if scanner.Scan() {
 			opts.Project = scanner.Text()
 		}
+	}
+
+	if err := validateNames(opts.Target); err != nil {
+		die(err)
 	}
 
 	gopath, err := ensureGopath()
