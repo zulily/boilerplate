@@ -68,7 +68,7 @@ func ensureGopath() (string, error) {
 func validateNames(t Target) error {
 	for _, name := range []string{t.Repository, t.Namespace, t.Project} {
 		if !validDockerName.MatchString(name) {
-			return fmt.Errorf("invalid name '%s'. Only [a-z0-9-_.] are allowed.")
+			return fmt.Errorf("invalid name '%s'. Only [a-z0-9-_.] are allowed.", name)
 		}
 	}
 	return nil
