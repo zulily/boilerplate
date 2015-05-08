@@ -2,7 +2,7 @@
 
 > The way we [Go](http://golang.org/)
 
-Boilerplate provides a single tool (`boilerplate.go`) which you can use to provision a
+Boilerplate provides a simple tool which you can use to provision a
 new Go project with a Makefile, Dockerfile, and associated files.
 
 Boilerplate revolves around 3 concepts, each of which are used to set up your new project:
@@ -32,12 +32,11 @@ Boilerplate makes/enforces several assumptions about the structure and conventio
 
 ## Quick Start
 
-`boilerplate.go` may be invoked with no arguments, in which case you will be
+`boilerplate` may be invoked with no arguments, in which case you will be
 interactively prompted for the `repository`, `namespace`, and `project` names.
 
-    $ git clone https://github.com/core/boilerplate.git
-    $ cd boilerplate
-    $ go run boilerplate.go
+    $ go get github.com/core/boilerplate
+    $ boilerplate
 
     Enter the name of git repository (e.g. github.com): github.com
     Enter the namespace in the repository (e.g. zulily): dcarney
@@ -58,7 +57,7 @@ interactively prompted for the `repository`, `namespace`, and `project` names.
 
 Values for the `repository`, `namespace`, and `project` can also be supplied using command line flags:
 
-    $ go run boilerplate.go -repository=github.com -namespace=zulily project=fizzbuzz
+    $ boilerplate -repository=github.com -namespace=zulily project=fizzbuzz
 
     GOPATH is: /home/dcarney/go
     Creating a new project at: /home/dcarney/go/src/foobar/zulily/fizzbuzz
