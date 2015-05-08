@@ -57,7 +57,7 @@ interactively prompted for the `repository`, `namespace`, and `project` names.
 
 Values for the `repository`, `namespace`, and `project` can also be supplied using command line flags:
 
-    $ boilerplate -repository=github.com -namespace=zulily project=fizzbuzz
+    $ boilerplate -repository=github.com -namespace=zulily -project=fizzbuzz
 
     GOPATH is: /home/dcarney/go
     Creating a new project at: /home/dcarney/go/src/foobar/zulily/fizzbuzz
