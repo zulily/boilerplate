@@ -35,7 +35,7 @@ Boilerplate makes/enforces several assumptions about the structure and conventio
 `boilerplate` may be invoked with no arguments, in which case you will be
 interactively prompted for the `repository`, `namespace`, and `project` names.
 
-    $ go get github.com/core/boilerplate
+    $ go get github.com/zulily/boilerplate
     $ boilerplate
 
     Enter the name of git repository (e.g. github.com): github.com
